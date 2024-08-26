@@ -5,7 +5,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import os
 
-# Función para obtener el siguiente número de archivo
+# Function to get the next file number
 def get_next_file_number(folder):
     existing_files = [int(f.split('.')[0]) for f in os.listdir(folder) if f.endswith('.csv') and f.split('.')[0].isdigit()]
     if existing_files:
@@ -13,15 +13,15 @@ def get_next_file_number(folder):
     else:
         return 1
 
-# Función que se ejecuta al hacer clic en el botón "Order"
+# Function that is executed when the "Order" button is clicked
 def generate_files():
     try:
         num_days = int(entry_days.get())
     except ValueError:
-        messagebox.showerror("Error", "Por favor, introduce un número válido de días.")
+        messagebox.showerror("Error", "Please enter a valid number of days.")
         return
     
-    records_per_day = 390  # Registros por día
+    records_per_day = 390  # Records per day
     csv_folder = "data/csv_files"
     os.makedirs(csv_folder, exist_ok=True)
     start_file_number = get_next_file_number(csv_folder)
@@ -44,9 +44,9 @@ def generate_files():
         filename = f"{start_file_number + day}.csv"
         df.to_csv(os.path.join(csv_folder, filename), index=False)
     
-    messagebox.showinfo("execution done", f"Generated {num_days} CSV files in folder '{csv_folder}'.")
+    messagebox.showinfo("Execution done", f"Generated {num_days} CSV files in folder '{csv_folder}'.")
 
-# Función para centrar la ventana en la pantalla
+# Function to center the window on the screen
 def center_window(window, width, height):
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
@@ -54,25 +54,25 @@ def center_window(window, width, height):
     y_coordinate = int((screen_height / 2) - (height / 2))
     window.geometry(f"{width}x{height}+{x_coordinate}+{y_coordinate}")
 
-# Configuración de la ventana principal de tkinter
+# Main tkinter window configuration
 root = tk.Tk()
-root.title("ROS stock CSV data generator")
+root.title("ROS Stock CSV Data Generator")
 
-# Ajustar el tamaño de la ventana
+# Adjust the window size
 window_width = 400
 window_height = 200
 center_window(root, window_width, window_height)
 
-# Etiqueta y campo de entrada para los días
+# Label and input field for days
 label_days = tk.Label(root, text="Days to generate:")
 label_days.pack(pady=10)
 
 entry_days = tk.Entry(root, width=30)
 entry_days.pack(pady=5)
 
-# Botón "Order"
+# "Order" button
 button_order = tk.Button(root, text="Order", command=generate_files)
 button_order.pack(pady=20)
 
-# Iniciar la interfaz
+# Start the interface
 root.mainloop()
